@@ -23,7 +23,11 @@ onMounted( ()=>{
     <main class="container-xl mt-5">
         <h2 class="text-center">Nuestra Colección</h2>  
 
-        <Guitarra/>
+        <Guitarra
+            v-for="guitarra in guitarras"
+            :key="guitarra.id"
+            :guitarra="guitarra"
+        />
             
     </main>
 
