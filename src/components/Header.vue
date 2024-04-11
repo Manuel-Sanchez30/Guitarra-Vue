@@ -5,7 +5,9 @@ const props= defineProps({
         type:Array,
         required:true,
     }
-})
+});
+
+defineEmits(['disminuir-carrito'])
         
 </script>
 <template>
@@ -56,6 +58,7 @@ const props= defineProps({
                                                 <button
                                                     type="button"
                                                     class="btn btn-dark"
+                                                    @click="$emit('disminuir-carrito', producto.id)"
                                                 >
                                                     -
                                                 </button>
