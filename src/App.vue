@@ -6,18 +6,29 @@ import Guitarra from './components/Guitarra.vue';
 import {db} from './data/guitarras.js'
 
 const guitarras = ref([])
+const carrito = ref([])
 
 onMounted( ()=>{
     guitarras.value = db
 });
 
+const agregarCarrito = (guitarra)=>{
+
+    guitarra.cantidad = 1
+    carrito.value.push(guitarra)
+};
+
+console.log(carrito);
 
 
 </script>
 
 <template>
 
-    <Header/>
+    <Header
+    
+        :carrito="carrito"
+    />
 
 
     <main class="container-xl mt-5">
@@ -27,6 +38,7 @@ onMounted( ()=>{
             v-for="guitarra in guitarras"
             :key="guitarra.id"
             :guitarra="guitarra"
+            @agregar-carrito="agregarCarrito"
         />
             
     </main>
