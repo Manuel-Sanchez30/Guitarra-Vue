@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import Footer from './components/Footer.vue';
 import Header from './components/Header.vue';
 import Guitarra from './components/Guitarra.vue';
@@ -8,8 +8,20 @@ import {db} from './data/guitarras.js'
 const guitarras = ref([])
 const carrito = ref([])
 
+watch(carrito, ()=>{
+    guardarLocalStorage()
+},{
+    deep: true
+})
+
 onMounted( ()=>{
-    guitarras.value = db
+    guitarras.value = db;
+
+    const carritoStogare = localStorage.getItem('carrito')
+
+    if(carritoStogare){
+        carrito.value = JSON.parse(carritoStogare)
+    }
 });
 
 const agregarCarrito = (guitarra)=>{
@@ -42,6 +54,10 @@ const eliminarProducto = (id)=>{
 
 const vaciarCarrito = ()=>{
     carrito.value = []
+};
+
+const guardarLocalStorage = ()=>{
+    localStorage.setItem('carrito', JSON.stringify(carrito.value))
 };
 
 
