@@ -1,4 +1,6 @@
 <script setup>
+import { computed } from 'vue';
+
 
 const props= defineProps({
     carrito:{
@@ -7,7 +9,11 @@ const props= defineProps({
     }
 });
 
-defineEmits(['disminuir-carrito'])
+defineEmits(['disminuir-carrito', 'aumentar-cantidad', 'eliminar-producto', 'vaciar-carrito']);
+
+const totalPagar = computed( ()=>{
+    return props.carrito.reduce( (total, product) => total + ( product.cantidad * product.precio ), 0 )
+});
         
 </script>
 <template>
@@ -62,10 +68,11 @@ defineEmits(['disminuir-carrito'])
                                                 >
                                                     -
                                                 </button>
-                                                    1
+                                                    {{ producto.cantidad }}
                                                 <button
                                                     type="button"
                                                     class="btn btn-dark"
+                                                    @click="$emit('aumentar-cantidad',producto.id)"
                                                 >
                                                     +
                                                 </button>
@@ -74,6 +81,7 @@ defineEmits(['disminuir-carrito'])
                                                 <button
                                                     class="btn btn-danger"
                                                     type="button"
+                                                    @click="$emit('eliminar-producto', producto.id)"
                                                 >
                                                     X
                                                 </button>
@@ -82,8 +90,11 @@ defineEmits(['disminuir-carrito'])
                                     </tbody>
                                 </table>
 
-                                <p class="text-end">Total pagar: <span class="fw-bold">$899</span></p>
-                                <button class="btn btn-dark w-100 mt-3 p-2">Vaciar Carrito</button>
+                                <p class="text-end">Total pagar: <span class="fw-bold">${{ totalPagar }}</span></p>
+                                <button 
+                                    class="btn btn-dark w-100 mt-3 p-2"
+                                    @click="$emit('vaciar-carrito')"
+                                    >Vaciar Carrito</button>
                             </div>    
                         </div>
                     </div>

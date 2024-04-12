@@ -15,23 +15,34 @@ onMounted( ()=>{
 const agregarCarrito = (guitarra)=>{
 
     const existe = carrito.value.findIndex( producto => producto.id === guitarra.id )
-
     if( existe >=0 ){
         carrito.value[existe].cantidad ++
     }else{
         guitarra.cantidad = 1
         carrito.value.push(guitarra)
     }
-
 };
 
 const decrementarCantidad = (id)=>{
-    const index = carrito.value.findIndex( producto => producto.id === id )
 
+    const index = carrito.value.findIndex( producto => producto.id === id )
     if( carrito.value[index].cantidad <=1 ) return
     carrito.value[index].cantidad--
+};
 
-}
+const aumentarCantidad = (id)=>{
+
+    const existe = carrito.value.findIndex( producto => producto.id === id )
+    carrito.value[existe].cantidad++
+};
+
+const eliminarProducto = (id)=>{
+    carrito.value = carrito.value.filter( product => product.id !== id )
+};
+
+const vaciarCarrito = ()=>{
+    carrito.value = []
+};
 
 
 </script>
@@ -42,6 +53,9 @@ const decrementarCantidad = (id)=>{
     
         :carrito="carrito"
         @disminuir-carrito="decrementarCantidad"
+        @aumentar-cantidad="aumentarCantidad"
+        @eliminar-producto="eliminarProducto"
+        @vaciar-carrito="vaciarCarrito"
     />
 
 
